@@ -1,0 +1,28 @@
+{% extends "blog.html" %}
+{% block start %}
+
+    <h1>hey boys this is html</h1>
+    <a href="/contact">contact</a>
+    <a href="/about">about</a>
+    <table>
+        <tr>
+            <th>S No.</th>
+            <th>NAME</th>
+            <th>AGE</th>
+            <th>VOTE</th>
+        </tr>
+        {% for people in peoples %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ people.name }}</td>
+            <td>{{ people.age }}</td>
+            <td> 
+                {% if people.age >= 18 %}👍
+                {% else %}👎
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+    

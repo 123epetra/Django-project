@@ -1,0 +1,95 @@
+{% extends 'blog.html'%}
+{%block start%}
+
+<style>
+    .gradient-background {
+      background: linear-gradient(to right, #0077B6, #0096C7); /* Ocean blue to blue gradient */
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .submit-button {
+      display: block;
+      width: 80%;
+      margin: 10px auto; /* Center the button */
+      position: relative;
+    }
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #3498db; /* Blue color */
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+      position: absolute;
+      right: -30px;
+      top: 8px;
+      display: none; /* Hidden initially */
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+  
+  <div class="container" style="max-width: 40%;">
+    <div class="gradient-background">
+      <form id="recipeForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if messages %} 
+        <!-- first understand this before proceeding  -->
+        
+        <div class="alert alert-primary" role="alert">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+          </div>
+        
+        {%endif%}
+        <div class="mb-3">
+            <label for="username" class="form-label">First Name</label>
+            <input type="text" class="form-control" name="First_Name">
+          </div>
+          <div class="mb-3">
+            <label for="username" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="Last_Name">
+          </div>
+        <div class="mb-3">
+          <label for="username" class="form-label">username</label>
+          <input type="text" class="form-control" name="username">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label" >password</label>
+          <input type="text" class="form-control" name="password">
+        </div>
+        <p> Already have an account?  Click here to <a href="/login/">Login</a></p>
+        <button type="submit" class="btn btn-primary submit-button">Register
+          <div class="loader"></div>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  
+  
+  
+  <!-- {%for abcd in image_receipe%}
+  {%if abcd.id == 10 %}
+    <img src="/media/{{abcd.receipe_image}}" alt="" style="height: 100px; width: 100px ;">
+  {% endif %}
+  
+  {% endfor %} -->
+<!--   
+  <script>
+    document.getElementById('recipeForm').addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent the form from submitting normally
+      document.querySelector('.loader').style.display = 'block'; // Show loader
+      // Add your AJAX form submission logic here
+    });
+  </script> -->
+  
+  
+  
+  
+
+
+{%endblock%}
