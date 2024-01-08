@@ -5,8 +5,9 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url='login')
 def hello(request):
     if request.method == 'POST':
         data = request.POST
@@ -36,10 +37,12 @@ def hello(request):
     
     
     return render (request, 'receipe.html',context)
+@login_required(login_url='login')
 def delete(request, id):
     instance = receipe.objects.get(id = id )
     instance.delete()
     return redirect('receipe')
+@login_required(login_url='login')
 def update(request, id):
     queryset = receipe.objects.get(id = id) 
     if request.method == 'POST':
