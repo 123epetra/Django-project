@@ -1,11 +1,17 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.http import HttpResponse
-from django.db.models import Q
+from django.db.models import Q,  Sum
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from .utils import *
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+
 
 @login_required(login_url='login')
 def hello(request):
@@ -91,8 +97,10 @@ def logout_page(request):
 
         
 
-    
-    
+def send_email(request):
+    send_email_to_client()
+    return redirect('/')
+
 
 def register(request):
     if request.method == "POST":
@@ -120,6 +128,32 @@ def register(request):
 
     
     return render (request, 'register.html')
+
+def get_students(request):
+    queryset = Student.objects.all()
+    
+    if request.GET.get('search'):
+        search = request.GET.get('search')
+        queryset = queryset.filter(Q(student_name__icontains=search) | Q(abc__department__icontains= search) | Q(student_email__icontains = search))
+        
+
+   
+    paginator = Paginator(queryset, 10)  # Show 25 contacts per page.
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    
+
+    return render (request, 'students.html ', {'queryset' : page_obj} )
+
+def marks_page(request, student_id):
+    queryset = marks.objects.filter(student__student_id__student_id = student_id)
+    total_marks = queryset.aggregate(total_marks=Sum('marks'))
+    
+    
+
+    return render (request, 'markshit.html', {'queryset' : queryset, 'total' : total_marks})
+
 
 
         

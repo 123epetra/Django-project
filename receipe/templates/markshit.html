@@ -1,0 +1,36 @@
+{% extends "blog.html" %}
+{% block start %}
+{% csrf_token %}
+
+<h1>Total: {{ total.total_marks }}</h1>
+<h1>Rank: {{queryset.first.student.student_rank.first.rank}}</h1>
+
+
+<table class="table table_">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Subject</th>
+        <th scope="col">Marks </th>
+        
+    
+      </tr>
+    </thead>
+    {% csrf_token %}
+    
+    {% for marks in queryset %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{marks.subject.subject_name}}</td>
+        <td>{{marks.marks}}</td>
+
+
+      </tr>
+    {% endfor %}
+      
+    
+  </table>
+
+
+
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "blog.html" %}
+{% block start %}
+<style>
+    .pagination {
+    text-align: center;
+    padding: 10px;
+}
+
+.step-links {
+    display: inline-block;
+}
+
+.round-button {
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 5px;
+    color: black;
+    border: 2px solid black;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.round-button:hover {
+    background-image: linear-gradient(to right, oceanblue, blue);
+    color: white;
+}
+
+.current {
+    display: inline-block;
+    padding: 8px 15px;
+    margin: 5px;
+}
+ 
+
+</style>
+<h2>This is email page </h2>
+<div class="container">
+  <a href="{% url 'send_email'%}" class="btn btn-success">Send email</a>
+</div>
+<div class="container mt-3">
+    <div class="row">
+      <div class="col">
+        <form class="d-flex" method = 'get'>
+          <input  class="form-control me-2" name = 'search' type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit" >Search</button>
+        </form>
+      </div>
+    </div>
+  </div>
+<table class="table table_">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Student ID </th>
+        <th scope="col">Student Name</th>
+        <th scope="col">Department</th>
+        <th scope="col">Student email </th>
+        <th scope="col">Studnet age</th>
+        <th scope="col">Studnet oee</th>
+      </tr>
+    </thead>
+    {% csrf_token %}
+    
+    {% for student in queryset %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td><a href="{% url 'markshit' student.student_id %}">{{student.student_id}}</a></td>
+        <td>{{student.student_name}}</td>
+        
+        <td>{{student.abc.department}}</td>
+        <td>{{student.student_email}}</td>
+        <td>{{student.student_age}}</td>
+        <td>oee</td>
+
+      </tr>
+    {% endfor %}
+      
+    
+  </table>
+  <div class="pagination">
+    <span class="step-links">
+        {% if queryset.has_previous %}
+            <a class="round-button" href="?page=1">&#171;</a> <!-- First -->
+            <a class="round-button" href="?page={{ queryset.previous_page_number }}">&#8249;</a> <!-- Previous -->
+        {% endif %}
+
+        <span class="current">
+            Page {{ queryset.number }} of {{ queryset.paginator.num_pages }}.
+        </span>
+
+        {% if queryset.has_next %}
+            <a class="round-button" href="?page={{ queryset.next_page_number }}">&#8250;</a> <!-- Next -->
+            <a class="round-button" href="?page={{ queryset.paginator.num_pages }}">&#187;</a> <!-- Last -->
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock %}

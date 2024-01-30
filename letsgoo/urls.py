@@ -34,7 +34,11 @@ urlpatterns = [
     path('login/', login_page , name='login' ),
     path('logout/', logout_page , name='logout' ),
 
-    path('register/',register, name='register' )
+    path('register/',register, name='register' ),
+    path('students/',get_students, name='get_students' ),
+    path('markshit/<student_id>',marks_page, name='markshit' ),
+    path('Sending.../>',send_email, name='send_email' )
+
 ]
 
 if settings.DEBUG:
